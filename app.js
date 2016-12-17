@@ -25,10 +25,18 @@ app.use(bodyParser.json());
 
 var router = express.Router(),
     connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'admin',
-	database: 'mya2billing'
+	     host: 'localhost',
+	     user: 'root',
+	     password: 'admin',
+	     database: 'mya2billing'
+    });
+    connection.connect();
+
+    var userConnection = mysql.createConnection({
+       host: 'localhost',
+       user: 'root',
+       password: 'admin',
+       database: 'asterisk'
     });
     connection.connect();
 
@@ -65,6 +73,14 @@ router.post('/sendSMS',function(req,res){
 
 })
 
+router.get("/checkUser/:username",function(req,res){
+  var username = req.params.username;
+  var query = "Select count from User where username="+username+";"
+  userConnection.query(query,function(err,rows,fields){
+    res.send(rows);
+  })
+
+})
 
 app.use(router);
 
