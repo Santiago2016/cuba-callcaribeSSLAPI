@@ -77,6 +77,7 @@ router.get("/checkUser/:username",function(req,res){
   var username = req.params.username;
   var query = "select COUNT(id) from Users where username="+username+";"
   userConnection.query(query,function(err,rows,fields){
+    console.log(err,rows,fields)
     res.send(rows);
   })
 
