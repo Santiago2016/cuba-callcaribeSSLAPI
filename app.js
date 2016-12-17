@@ -5,7 +5,6 @@ const crypto = require('crypto'),
   fs = require("fs"),
   http = require("http"),
   https = require("https"),
-  app = express(),
   bodyParser  = require("body-parser"),
   methodOverride = require("method-override"),
   mysql = require('mysql');
@@ -15,8 +14,9 @@ var certificate = fs.readFileSync('cuba.crt').toString();
 var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
 
 
-var express = require("express");
-    
+var express = require("express"),
+    app = express(),
+
 
 
 app.use(cors())
