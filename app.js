@@ -15,7 +15,7 @@ var certificate = fs.readFileSync('cuba.crt').toString();
 var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
 
 
-var express = require("express"),
+var express = require("express");
     
 
 
