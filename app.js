@@ -1,9 +1,24 @@
 var cors = require('cors')
+
+
+const crypto = require('crypto'),
+  fs = require("fs"),
+  http = require("http"),
+  https = require("https"),
+  app = express(),
+  bodyParser  = require("body-parser"),
+  methodOverride = require("method-override"),
+  mysql = require('mysql');
+
+var privateKey = fs.readFileSync('server.key').toString();
+var certificate = fs.readFileSync('cuba.crt').toString();
+var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
+
+
 var express = require("express"),
-    app = express(),
-    bodyParser  = require("body-parser"),
-    methodOverride = require("method-override"),
-    mysql = require('mysql');
+    
+
+
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -53,6 +68,9 @@ router.post('/sendSMS',function(req,res){
 
 app.use(router);
 
-app.listen(8080, function() {
-  console.log("Node server running on http://a2billing.callcaribe.com:8080");
-});
+
+https.createServer({
+      key: privateKey,
+      cert: certificate
+    }, app).listen(8443);
+
