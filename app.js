@@ -38,7 +38,7 @@ var router = express.Router(),
        password: 'admin',
        database: 'asterisk'
     });
-    connection.connect();
+    userConnection.connect();
 
 router.get('/getCalls/:id',function(req,res){
    console.log("inside get calls",req.params);
