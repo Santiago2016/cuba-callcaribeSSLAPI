@@ -1,0 +1,21 @@
+{
+  "name": "asterisk",
+  "version": "1.0.0",
+  "description": "asterisk twilio integration future migration of a2billing api",
+  "main": "app.js",
+  "scripts": {
+    "test": "\"\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "forever": "^0.15.3",
+    "method-override": "^2.3.6",
+    "mysql": "github:mysqljs/mysql",
+    "node-mysql": "^0.4.2",
+    "twilio": "^2.11.0"
+  }
+}

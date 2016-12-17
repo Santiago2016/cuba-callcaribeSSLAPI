@@ -1,0 +1,58 @@
+var cors = require('cors')
+var express = require("express"),
+    app = express(),
+    bodyParser  = require("body-parser"),
+    methodOverride = require("method-override"),
+    mysql = require('mysql');
+app.use(cors())
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
+var router = express.Router(),
+    connection = mysql.createConnection({
+	host: 'localhost',
+	user: 'root',
+	password: 'admin',
+	database: 'mya2billing'
+    });
+    connection.connect();
+
+router.get('/getCalls/:id',function(req,res){
+   console.log("inside get calls",req.params);
+   var id = req.params.id;
+   connection.query('select starttime, stoptime, sessiontime, calledstation, sessionbill from cc_call where card_id = '+id+' and not sessiontime = 0;',function(err,rows,fields){
+	if (err) {res.send(err)}
+	else{res.send(rows)}
+   })
+})
+
+
+router.post('/sendSMS',function(req,res){
+   var toNumber = req.body.to
+   var message = req.body.message
+   var accountSid = 'AC3e2c6534a930f34fcaef2671724fcb59';
+   var authToken = "fe699ececa7074cd1cf42050917d9063";
+   var client = require('twilio')(accountSid, authToken);
+   console.log(req.body);
+   client.messages.create({
+	body: message,
+	to: toNumber,
+	from:"+19543985604"
+   }, function(err,sms){
+	if (!err){
+	    res.json({"message":"sms sent"});
+	}
+	else{
+	    console.log(err);
+	    res.json({"message":"error"});
+	}
+   })
+
+})
+
+
+app.use(router);
+
+app.listen(8080, function() {
+  console.log("Node server running on http://a2billing.callcaribe.com:8080");
+});
